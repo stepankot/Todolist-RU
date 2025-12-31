@@ -1,0 +1,107 @@
+:root {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== Page ===== */
+.page {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+	background: #f5f5f5;
+}
+
+.page h1 {
+	margin-bottom: 24px;
+	font-size: 32px;
+	font-weight: 600;
+	color: #111;
+}
+
+/* ===== Todos container ===== */
+.todos-container {
+	width: 100%;
+	max-width: 700px;
+	padding: 30px;
+	background: #fff;
+	border-radius: 32px;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== List ===== */
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 24px;
+	margin-bottom: 12px;
+
+	background: #111;
+	color: #fff;
+	border-radius: 18px;
+
+	transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+li:hover {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== Todo content ===== */
+.todo-row {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.todo-row span {
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+/* ===== Checkbox ===== */
+.todo-chkbox {
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+	accent-color: #fff;
+}
+
+/* ===== Completed state ===== */
+.completed {
+	background: #eaeaea;
+	color: #111;
+}
+
+.completed .todo-row span {
+	text-decoration: line-through;
+	opacity: 0.6;
+}
+
+.completed .todo-chkbox {
+	accent-color: #111;
+}
+
+.todo-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.status {
+	font-size: 14px;
+	opacity: 0.8;
+	white-space: nowrap;
+}
+
+.todo-chkbox {
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+}
