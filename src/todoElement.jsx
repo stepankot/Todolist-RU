@@ -4,6 +4,7 @@ export default function TodoElement({ todo, onDelete }) {
 	const [isChecked, setIsChecked] = useState(todo.completed)
 	const [changedLoading, setChangedLoading] = useState()
 
+	if (changedLoading) return <p>Изменение...</p>
 	function onStatusChange() {
 		const updatedTodo = {
 			...todo,

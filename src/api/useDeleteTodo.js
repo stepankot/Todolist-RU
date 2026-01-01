@@ -1,9 +1,10 @@
-export default function deleteTodo(todo) {
+export default function deleteTodo(todo, setLoading) {
+	setLoading(true)
 	fetch(`http://localhost:3000/todos/${todo.id}`, {
 		method: 'DELETE'
 	})
 		.then(response => {
 			response.json()
 		})
-		.finally(() => setIsDeleting(false))
+		.finally(() => setLoading(false))
 }

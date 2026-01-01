@@ -12,5 +12,5 @@ export default function useGetTodos(refreshTodos) {
 			.finally(() => setLoading(false))
 	}, [refreshTodos])
 
-	return { todos, error, loading, setTodos }
+	return { todos, error, loading, setTodos, setLoading }
 }

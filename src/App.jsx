@@ -7,14 +7,14 @@ import deleteTodo from './api/useDeleteTodo'
 
 export default function App() {
 	const [refreshTodos, setRefreshTodos] = useState(false)
-	const { todos, error, loading, setTodos } = useTodos(refreshTodos)
+	const { todos, error, loading, setTodos, setLoading } = useTodos(refreshTodos)
 	const [onModal, setOnModal] = useState(false)
 	const [value, setValue] = useState('')
 	if (loading) return <p>Loading...</p>
 
 	const onSubmit = event => {
 		event.preventDefault()
-		createdTodo({ title: value, completed: false })
+		createdTodo({ title: value, completed: false }, setLoading)
 
 		setRefreshTodos(!refreshTodos)
 		setValue('')
@@ -30,7 +30,7 @@ export default function App() {
 	const onDelete = todo => {
 		const newTodos = todos.filter(item => item.id !== todo.id)
 		setTodos(newTodos)
-		deleteTodo(todo)
+		deleteTodo(todo, setLoading)
 	}
 
 	return (
