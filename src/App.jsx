@@ -14,7 +14,7 @@ export default function App() {
 
 	const onSubmit = event => {
 		event.preventDefault()
-		createdTodo({ title: value, completed: false }, setLoading)
+		createdTodo({ title: value, completed: false }, setLoading, setRefreshTodos)
 
 		setRefreshTodos(!refreshTodos)
 		setValue('')
@@ -51,6 +51,7 @@ export default function App() {
 							key={todo.id}
 							todo={todo}
 							onDelete={onDelete}
+							setRefreshTodos={setRefreshTodos}
 						/>
 					))}
 			</ul>
@@ -60,6 +61,7 @@ export default function App() {
 					setValue={setValue}
 					setOnModal={setOnModal}
 					onSubmit={onSubmit}
+					isNew={true}
 				/>
 			) : (
 				''

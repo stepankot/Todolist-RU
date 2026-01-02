@@ -1,4 +1,4 @@
-export const updateTodo = (updatedTodo, setChangedLoading) => {
+export const updateTodo = (updatedTodo, setChangedLoading, setRefreshTodos) => {
 	setChangedLoading(true)
 	fetch(`http://localhost:3000/todos/${updatedTodo.id}`, {
 		method: 'PATCH',
@@ -8,5 +8,8 @@ export const updateTodo = (updatedTodo, setChangedLoading) => {
 		body: JSON.stringify(updatedTodo)
 	})
 		.then(response => response.json)
-		.finally(() => setChangedLoading(false))
+		.finally(() => {
+			setRefreshTodos(prev => !prev)
+			setChangedLoading(false)
+		})
 }

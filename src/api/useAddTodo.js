@@ -1,4 +1,4 @@
-export default function createdTodo(todo, setLoading) {
+export default function createdTodo(todo, setLoading, setRefreshTodos) {
 	setLoading(true)
 	fetch('http://localhost:3000/todos', {
 		method: 'POST',
@@ -10,5 +10,8 @@ export default function createdTodo(todo, setLoading) {
 		.then(response => {
 			response.json()
 		})
-		.finally(() => setLoading(false))
+		.finally(() => {
+			setRefreshTodos(prev => !prev)
+			setLoading(false)
+		})
 }

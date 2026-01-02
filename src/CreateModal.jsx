@@ -1,4 +1,12 @@
-export default function CreateModal({ value, setValue, setOnModal, onSubmit }) {
+export default function CreateModal({
+	value,
+	setValue,
+	setOnModal,
+	onSubmit,
+	initialValue,
+	isNew
+}) {
+	const isInitial = !isNew && value === initialValue
 	return (
 		<div className="modal-overlay">
 			<div className="modal-wrapper">
@@ -14,10 +22,16 @@ export default function CreateModal({ value, setValue, setOnModal, onSubmit }) {
 					<button
 						className="create-btn"
 						onClick={onSubmit}
-						disabled={!value}
-						style={value ? { background: 'black' } : {}}
+						disabled={!value || isInitial}
+						style={
+							value && isInitial
+								? { background: 'gray' }
+								: value
+								? { background: 'black' }
+								: {}
+						}
 					>
-						Создать
+						{isNew ? 'Создать' : 'Сохранить'}
 					</button>
 					<button
 						className="close"
