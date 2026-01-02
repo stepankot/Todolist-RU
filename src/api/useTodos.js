@@ -7,7 +7,7 @@ export default function useGetTodos(refreshTodos) {
 	useEffect(() => {
 		fetch('http://localhost:3000/todos')
 			.then(response => response.json())
-			.then(data => setTodos(data))
+			.then(data => setTodos(data.reverse()))
 			.catch(e => setError(e.message))
 			.finally(() => setLoading(false))
 	}, [refreshTodos])
