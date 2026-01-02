@@ -181,3 +181,23 @@ li:hover {
 	font-size: 20px;
 	width: 60%;
 }
+
+.searching-input {
+	margin: 10px;
+	font-size: 20px;
+	padding: 5px;
+	border: 2px solid black;
+	outline: none;
+}
+
+.app-title {
+	text-align: center;
+}
+.filter-group {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	font-size: 20px;
+}
