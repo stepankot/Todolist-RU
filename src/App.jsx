@@ -7,7 +7,7 @@ import deleteTodo from './api/useDeleteTodo'
 
 export default function App() {
 	const [refreshTodos, setRefreshTodos] = useState(false)
-	const { todos, loading, setTodos, setLoading } = useTodos(refreshTodos)
+	const { todos, loading, setTodos, setLoading } = useTodos()
 	const [onModal, setOnModal] = useState(false)
 	const [value, setValue] = useState('')
 	const [isSortAB, setIsSortAB] = useState(false)
@@ -23,7 +23,7 @@ export default function App() {
 		return () => clearTimeout(timeout)
 	}, [searchValue])
 
-	if (loading) return <p>Loading...</p>
+	if (loading) return <div class="loader"></div>
 
 	const onSubmit = event => {
 		event.preventDefault()
@@ -31,33 +31,28 @@ export default function App() {
 
 		setRefreshTodos(!refreshTodos)
 		setValue('')
-		const mockTodo = {
-			id: todos.length + 1,
-			title: value,
-			completed: false
-		}
-		setTodos([...todos, mockTodo])
 		setOnModal(false)
 	}
 
-	const onDelete = todo => {
-		const newTodos = todos.filter(item => item.id !== todo.id)
-		setTodos(newTodos)
-		deleteTodo(todo, setLoading)
+	const onDelete = id => {
+		deleteTodo(id, setLoading)
 	}
 
 	const onSearch = e => {
 		setSearchValue(e.target.value)
 	}
 
-	const filteredTodos = todos
-		.filter(todo =>
-			todo.title.toLowerCase().includes(debouncedSearch.toLowerCase())
-		)
-		.sort((a, b) => {
-			if (!isSortAB) return 0
-			return a.title.localeCompare(b.title)
-		})
+	const filteredTodos =
+		todos && Object.keys(todos).length > 0
+			? Object.entries(todos)
+					.filter(([id, todo]) =>
+						todo.title.toLowerCase().includes(debouncedSearch.toLowerCase())
+					)
+					.sort(([, a], [, b]) => {
+						if (!isSortAB) return 0
+						return a.title.localeCompare(b.title)
+					})
+			: []
 
 	return (
 		<div className="page">
@@ -68,7 +63,7 @@ export default function App() {
 						<button onClick={() => setOnModal(true)}>+</button>
 					</div>
 				</h1>
-				{todos[0] && (
+				{
 					<div className="filter-group">
 						<label>
 							Сортировать дела по алфавиту
@@ -85,20 +80,17 @@ export default function App() {
 							className="searching-input"
 						/>
 					</div>
-				)}
+				}
 			</div>
 			<div className="empty-todos">
-				{!todos[0]
-					? 'Список дел пуст нажмите "+"'
-					: !filteredTodos[0]
-					? 'Ничего не найдено'
-					: ''}
+				{!filteredTodos.length > 0 ? 'Ничего не найдено' : ''}
 			</div>
 			<ul className="todos-container">
-				{todos[0] &&
-					filteredTodos.map(todo => (
+				{filteredTodos.length > 0 &&
+					filteredTodos.reverse().map(([id, todo]) => (
 						<TodoElement
-							key={todo.id}
+							key={id}
+							id={id}
 							todo={todo}
 							onDelete={onDelete}
 							setRefreshTodos={setRefreshTodos}

@@ -1,17 +1,11 @@
-export default function createdTodo(todo, setLoading, setRefreshTodos) {
+import { ref, push } from 'firebase/database'
+import { database } from '../../firebase'
+
+export default function createdTodo(todo, setLoading) {
+	const todosRef = ref(database, 'todos/')
 	setLoading(true)
-	fetch('http://localhost:3000/todos', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(todo)
-	})
-		.then(response => {
-			response.json()
-		})
-		.finally(() => {
-			setRefreshTodos(prev => !prev)
-			setLoading(false)
-		})
+
+	push(todosRef, todo)
+		.then(response => console.log('Задача добавлена.'))
+		.finally(() => setLoading(false))
 }

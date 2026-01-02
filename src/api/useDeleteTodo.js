@@ -1,10 +1,11 @@
-export default function deleteTodo(todo, setLoading) {
+import { ref, remove } from 'firebase/database'
+import { database } from '../../firebase'
+
+export default function deleteTodo(id, setLoading) {
 	setLoading(true)
-	fetch(`http://localhost:3000/todos/${todo.id}`, {
-		method: 'DELETE'
-	})
-		.then(response => {
-			response.json()
-		})
+	const todosRef = ref(database, `todos/${id}`)
+
+	remove(todosRef)
+		.then(response => console.log('Задача удалена.'))
 		.finally(() => setLoading(false))
 }

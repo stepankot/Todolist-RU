@@ -1,15 +1,12 @@
-export const updateTodo = (updatedTodo, setChangedLoading, setRefreshTodos) => {
+import { ref, set } from 'firebase/database'
+import { database } from '../../firebase'
+
+export const updateTodo = (id, updatedTodo, setChangedLoading) => {
 	setChangedLoading(true)
-	fetch(`http://localhost:3000/todos/${updatedTodo.id}`, {
-		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(updatedTodo)
-	})
-		.then(response => response.json)
-		.finally(() => {
-			setRefreshTodos(prev => !prev)
-			setChangedLoading(false)
-		})
+	console.log(updatedTodo)
+	const todosRef = ref(database, `todos/${id}`)
+
+	set(todosRef, updatedTodo)
+		.then(response => console.log('Задача обновлена.'))
+		.finally(() => setChangedLoading(false))
 }

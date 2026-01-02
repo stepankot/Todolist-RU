@@ -1,24 +1,20 @@
 {
-  "todos": [
-    {
-      "id": "d894",
-      "title": "Абезьяна",
-      "completed": false
-    },
-    {
-      "id": "938d",
-      "title": "Агуша",
-      "completed": false
-    },
-    {
-      "id": "8547",
-      "title": "Марабу",
-      "completed": false
-    },
-    {
-      "id": "1331",
-      "title": "бякиБУки",
-      "completed": false
-    }
-  ]
+	"todos": {
+		"d894": {
+			"title": "Абезьяна",
+			"completed": false
+		},
+		"938d": {
+			"title": "Агуша",
+			"completed": false
+		},
+		"8547": {
+			"title": "Марабу",
+			"completed": false
+		},
+		"1331": {
+			"title": "бякиБУки",
+			"completed": false
+		}
+	}
 }

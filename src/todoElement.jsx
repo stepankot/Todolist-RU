@@ -1,27 +1,28 @@
 import { useState } from 'react'
 import { updateTodo } from './api/useUpdateTodo'
 import CreateModal from './CreateModal'
-export default function TodoElement({ todo, onDelete, setRefreshTodos }) {
+export default function TodoElement({ id, todo, onDelete }) {
 	const [isChecked, setIsChecked] = useState(todo.completed)
 	const [changedLoading, setChangedLoading] = useState()
 	const [onModal, setOnModal] = useState(false)
 	const [title, setTitle] = useState(todo.title)
 
-	if (changedLoading) return <p>Изменение...</p>
+	// if (changedLoading) return <p>Изменение...</p> Опционально, для просмотра изменения
+
 	function onStatusChange() {
 		const updatedTodo = {
 			...todo,
 			completed: !todo.completed
 		}
 		setIsChecked(!isChecked)
-		updateTodo(updatedTodo, setChangedLoading, setRefreshTodos)
+		updateTodo(id, updatedTodo, setChangedLoading)
 	}
 	function onUpdate() {
 		const updatedTodo = {
 			...todo,
 			title: title
 		}
-		updateTodo(updatedTodo, setChangedLoading, setRefreshTodos)
+		updateTodo(id, updatedTodo, setChangedLoading)
 		setOnModal(false)
 	}
 
@@ -39,7 +40,7 @@ export default function TodoElement({ todo, onDelete, setRefreshTodos }) {
 					checked={isChecked}
 					onChange={onStatusChange}
 				/>
-				<button onClick={() => onDelete(todo)}>Удалить</button>
+				<button onClick={() => onDelete(id, todo)}>Удалить</button>
 				<button onClick={() => setOnModal(!onModal)}>Изменить</button>
 			</div>
 			{onModal && (
