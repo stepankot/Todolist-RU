@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useTodos from './api/useTodos'
 import TodoElement from './todoElement'
 import CreateModal from './CreateModal'
@@ -7,11 +7,22 @@ import deleteTodo from './api/useDeleteTodo'
 
 export default function App() {
 	const [refreshTodos, setRefreshTodos] = useState(false)
-	const { todos, error, loading, setTodos, setLoading } = useTodos(refreshTodos)
+	const { todos, loading, setTodos, setLoading } = useTodos(refreshTodos)
 	const [onModal, setOnModal] = useState(false)
 	const [value, setValue] = useState('')
 	const [isSortAB, setIsSortAB] = useState(false)
+
 	const [searchValue, setSearchValue] = useState('')
+	const [debouncedSearch, setDebouncedSearch] = useState('')
+
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setDebouncedSearch(searchValue)
+		}, 400)
+
+		return () => clearTimeout(timeout)
+	}, [searchValue])
+
 	if (loading) return <p>Loading...</p>
 
 	const onSubmit = event => {
@@ -41,7 +52,7 @@ export default function App() {
 
 	const filteredTodos = todos
 		.filter(todo =>
-			todo.title.toLowerCase().includes(searchValue.toLowerCase())
+			todo.title.toLowerCase().includes(debouncedSearch.toLowerCase())
 		)
 		.sort((a, b) => {
 			if (!isSortAB) return 0
@@ -51,7 +62,12 @@ export default function App() {
 	return (
 		<div className="page">
 			<div>
-				<h1 className="app-title">Список дел</h1>
+				<h1 className="app-title">
+					Список дел
+					<div className="btn-cont">
+						<button onClick={() => setOnModal(true)}>+</button>
+					</div>
+				</h1>
 				{todos[0] && (
 					<div className="filter-group">
 						<label>
@@ -70,13 +86,10 @@ export default function App() {
 						/>
 					</div>
 				)}
-				<div className="btn-cont">
-					<button onClick={() => setOnModal(true)}>Создать</button>
-				</div>
 			</div>
 			<div className="empty-todos">
 				{!todos[0]
-					? 'Список дел пуст нажмите Создать'
+					? 'Список дел пуст нажмите "+"'
 					: !filteredTodos[0]
 					? 'Ничего не найдено'
 					: ''}

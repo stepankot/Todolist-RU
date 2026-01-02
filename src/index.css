@@ -191,7 +191,9 @@ li:hover {
 }
 
 .app-title {
+	justify-content: center;
 	text-align: center;
+	display: flex;
 }
 .filter-group {
 	display: flex;
@@ -201,4 +203,10 @@ li:hover {
 
 label {
 	font-size: 20px;
+}
+
+.btn-cont button {
+	width: 40px;
+	border-radius: 15px;
+	margin-left: 20px;
 }
