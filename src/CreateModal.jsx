@@ -6,7 +6,7 @@ export default function CreateModal({
 	initialValue,
 	isNew
 }) {
-	const isInitial = !isNew && value === initialValue
+	console.log(value)
 	return (
 		<div className="modal-overlay">
 			<div className="modal-wrapper">
@@ -22,9 +22,9 @@ export default function CreateModal({
 					<button
 						className="create-btn"
 						onClick={onSubmit}
-						disabled={!value || isInitial}
+						disabled={!value || initialValue === value}
 						style={
-							value && isInitial
+							value && initialValue === value
 								? { background: 'gray' }
 								: value
 								? { background: 'black' }

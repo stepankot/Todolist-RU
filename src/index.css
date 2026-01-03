@@ -210,3 +210,82 @@ label {
 	border-radius: 15px;
 	margin-left: 20px;
 }
+
+.task-card {
+	width: 520px;
+	padding: 20px;
+	border: 1px solid #000;
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	font-family: system-ui, sans-serif;
+}
+
+/* Статус */
+.task-status {
+	font-size: 12px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.task-status.done {
+	color: #000;
+	font-weight: 600;
+}
+
+.task-status.open {
+	color: #555;
+}
+
+/* Заголовок */
+.task-title {
+	font-size: 20px;
+	font-weight: 500;
+	color: #000;
+	line-height: 1.4;
+
+	/* адаптация текста */
+	word-break: break-word;
+	overflow-wrap: break-word;
+}
+
+/* Кнопки */
+.task-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.task-actions button {
+	padding: 8px 14px;
+	background: transparent;
+	border: 1px solid #000;
+	color: #000;
+	cursor: pointer;
+	font-size: 14px;
+	transition: all 0.2s ease;
+}
+
+/* Hover */
+.task-actions button:hover {
+	background: #000;
+	color: #fff;
+}
+
+/* Опасное действие */
+.task-actions button:nth-child(2) {
+	border-style: dashed;
+}
+
+/* Disabled (если понадобится) */
+.task-actions button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.todo-row {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+}
