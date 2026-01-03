@@ -81,6 +81,7 @@ export default function Main() {
 					</div>
 				)}
 			</div>
+			<p>Нажмите на задачу, чтобы перейти на страницу задачи</p>
 			<div className="empty-todos">
 				{!todos[0]
 					? 'Список дел пуст нажмите "+"'

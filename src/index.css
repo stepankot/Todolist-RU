@@ -55,6 +55,7 @@ li:hover {
 /* ===== Todo content ===== */
 .todo-row {
 	display: flex;
+	width: 300px;
 	flex-direction: column;
 	gap: 6px;
 }
@@ -288,4 +289,23 @@ label {
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 1;
 	overflow: hidden;
+}
+
+.bckBtn {
+	padding: 8px 14px;
+	background: transparent;
+	border: 1px solid #000;
+	color: #000;
+	cursor: pointer;
+	font-size: 14px;
+	transition: all 0.2s ease;
+	margin: 10px;
+}
+.bckBtn:hover {
+	background: #000;
+	color: #fff;
+}
+
+li:hover {
+	cursor: pointer;
 }

@@ -1,10 +1,11 @@
-import { useParams } from 'react-router'
+import { Navigate, useParams } from 'react-router'
 import useGetTodo from '../api/useGetTask'
 import { updateTodo } from '../api/useUpdateTodo'
 import deleteTodo from '../api/useDeleteTodo'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import CreateModal from '../CreateModal'
+import BackBtn from '../BackBtn'
 
 export default function Task() {
 	const { id } = useParams()
@@ -23,7 +24,13 @@ export default function Task() {
 	}, [loading, todo])
 
 	if (loading) return <p>Loading...</p>
-	if (error) return <p>{error}</p>
+	if (error)
+		return (
+			<Navigate
+				to="/404"
+				replace
+			/>
+		)
 
 	function onStatusChange() {
 		const updatedTodo = {
@@ -45,8 +52,10 @@ export default function Task() {
 		deleteTodo(todo, setDelLoading)
 		navigate(-1)
 	}
+
 	return (
 		<div className="page">
+			<BackBtn />
 			<div className="task-card">
 				<div className={`task-status ${todo.completed ? 'done' : 'open'}`}>
 					{todo.completed ? 'Выполнена' : 'Невыполнена'}
