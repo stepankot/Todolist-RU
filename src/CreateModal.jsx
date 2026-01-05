@@ -6,6 +6,7 @@ export default function CreateModal({
 	initialValue,
 	isNew
 }) {
+	console.log(value)
 	return (
 		<div className="modal-overlay">
 			<div className="modal-wrapper">

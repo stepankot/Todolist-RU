@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 export default function useGetTodos(refreshTodos) {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(null)
-	const [todos, setTodos] = useState([])
+	const [todos, setTodos] = useState(null)
 	useEffect(() => {
 		fetch('http://localhost:3000/todos')
 			.then(response => response.json())
@@ -12,5 +12,5 @@ export default function useGetTodos(refreshTodos) {
 			.finally(() => setLoading(false))
 	}, [refreshTodos])
 
-	return { todos, error, loading }
+	return { todos, error, loading, setTodos, setLoading }
 }

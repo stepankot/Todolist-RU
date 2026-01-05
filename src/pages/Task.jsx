@@ -1,31 +1,56 @@
 import { Navigate, useParams } from 'react-router'
-import { useContext, useEffect, useState } from 'react'
+import useGetTodo from '../api/useGetTask'
+import { updateTodo } from '../api/useUpdateTodo'
+import deleteTodo from '../api/useDeleteTodo'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import CreateModal from '../CreateModal'
 import BackBtn from '../BackBtn'
-import { TaskContext } from '../context'
 
 export default function Task() {
 	const { id } = useParams()
+	const [refreshTodo, setRefreshTodos] = useState(false)
+	const [delLoading, setDelLoading] = useState(false)
 	const [onModal, setOnModal] = useState(false)
 	const [title, setTitle] = useState('')
-	const { getTodo, onStatusChange, onUpdate, deleteTodo } =
-		useContext(TaskContext)
 
-	const todo = getTodo(id)
 	const navigate = useNavigate(null)
 
+	const { todo, loading, error } = useGetTodo(id, refreshTodo)
 	useEffect(() => {
 		if (todo?.title) {
 			setTitle(todo.title)
 		}
-	}, [todo])
+	}, [loading, todo])
 
-	const onSubmit = () => {
-		const updTodo = { ...todo, title: title }
-		onUpdate(updTodo)
+	if (loading) return <p>Loading...</p>
+	if (error)
+		return (
+			<Navigate
+				to="/404"
+				replace
+			/>
+		)
 
+	function onStatusChange() {
+		const updatedTodo = {
+			...todo,
+			completed: !todo.completed
+		}
+		updateTodo(updatedTodo, setRefreshTodos)
+	}
+	function onUpdate() {
+		const updatedTodo = {
+			...todo,
+			title: title
+		}
+		updateTodo(updatedTodo, setRefreshTodos)
 		setOnModal(false)
+	}
+
+	const onDelete = () => {
+		deleteTodo(todo, setDelLoading)
+		navigate(-1)
 	}
 
 	return (
@@ -40,8 +65,8 @@ export default function Task() {
 
 				<div className="task-actions">
 					<button onClick={() => setOnModal(true)}>Изменить</button>
-					<button onClick={() => deleteTodo(todo.id)}>Удалить</button>
-					<button onClick={() => onStatusChange(todo)}>
+					<button onClick={onDelete}>Удалить</button>
+					<button onClick={onStatusChange}>
 						{todo.completed ? 'Отменить' : 'Выполнить'}
 					</button>
 				</div>
@@ -51,7 +76,7 @@ export default function Task() {
 					value={title}
 					setValue={setTitle}
 					setOnModal={setOnModal}
-					onSubmit={onSubmit}
+					onSubmit={onUpdate}
 					initialValue={todo?.title}
 					isNew={false}
 				/>

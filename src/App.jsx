@@ -68,10 +68,8 @@ export default function App() {
 	}
 
 	return (
-		<TaskContext value={value}>
-			<div>
-				<Outlet />
-			</div>
-		</TaskContext>
+		<div>
+			<Outlet />
+		</div>
 	)
 }

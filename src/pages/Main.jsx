@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react'
+import useTodos from '../api/useTodos'
 import TodoElement from '../todoElement'
 import CreateModal from '../CreateModal'
-import { useContext } from 'react'
-import { TaskContext } from '../context'
+import createdTodo from '../api/useAddTodo'
+import deleteTodo from '../api/useDeleteTodo'
 
 export default function Main() {
+	const [refreshTodos, setRefreshTodos] = useState(false)
+	const { todos, loading, setTodos, setLoading } = useTodos(refreshTodos)
 	const [onModal, setOnModal] = useState(false)
 	const [value, setValue] = useState('')
 	const [isSortAB, setIsSortAB] = useState(false)
-	const { todos, onCreate } = useContext(TaskContext)
 
 	const [searchValue, setSearchValue] = useState('')
 	const [debouncedSearch, setDebouncedSearch] = useState('')
+
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setDebouncedSearch(searchValue)
@@ -20,26 +23,36 @@ export default function Main() {
 		return () => clearTimeout(timeout)
 	}, [searchValue])
 
+	if (loading) return <p>Loading...</p>
+
+	const onSubmit = event => {
+		event.preventDefault()
+		createdTodo({ title: value, completed: false }, setLoading, setRefreshTodos)
+
+		setRefreshTodos(!refreshTodos)
+		setValue('')
+		const mockTodo = {
+			id: todos.length + 1,
+			title: value,
+			completed: false
+		}
+		setTodos([...todos, mockTodo])
+		setOnModal(false)
+	}
+
 	const onSearch = e => {
 		setSearchValue(e.target.value)
 	}
 
-	const onSubmit = e => {
-		e.preventDefault()
-		const todo = { title: value, completed: false }
-		onCreate(todo)
-		setValue('')
-		setOnModal(false)
-	}
-
 	const filteredTodos = todos
-		?.filter(todo =>
+		.filter(todo =>
 			todo.title.toLowerCase().includes(debouncedSearch.toLowerCase())
 		)
 		.sort((a, b) => {
 			if (!isSortAB) return 0
 			return a.title.localeCompare(b.title)
 		})
+
 	return (
 		<div className="page">
 			<div>
@@ -49,7 +62,7 @@ export default function Main() {
 						<button onClick={() => setOnModal(true)}>+</button>
 					</div>
 				</h1>
-				{todos && (
+				{todos[0] && (
 					<div className="filter-group">
 						<label>
 							Сортировать дела по алфавиту
@@ -70,18 +83,19 @@ export default function Main() {
 			</div>
 			<p>Нажмите на задачу, чтобы перейти на страницу задачи</p>
 			<div className="empty-todos">
-				{!todos.length
+				{!todos[0]
 					? 'Список дел пуст нажмите "+"'
-					: !filteredTodos.length
+					: !filteredTodos[0]
 					? 'Ничего не найдено'
 					: ''}
 			</div>
 			<ul className="todos-container">
-				{todos &&
+				{todos[0] &&
 					filteredTodos.map(todo => (
 						<TodoElement
 							key={todo.id}
 							todo={todo}
+							setRefreshTodos={setRefreshTodos}
 						/>
 					))}
 			</ul>
