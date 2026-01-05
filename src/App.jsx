@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router'
+import { Navigate, Outlet, useNavigate } from 'react-router'
 import { TaskContext } from './context'
 import useGetTodos from './api/useTodos'
 import { useState } from 'react'
@@ -8,7 +8,7 @@ import DeleteTodo from './api/useDeleteTodo'
 
 export default function App() {
 	const [refreshTodos, setRefreshTodos] = useState(false)
-	const { todos, loading } = useGetTodos(refreshTodos)
+	const { todos, loading, error } = useGetTodos(refreshTodos)
 	const navigate = useNavigate(null)
 
 	const addTodo = todo => {
@@ -49,6 +49,13 @@ export default function App() {
 	}
 
 	if (loading) return <div>Loading</div>
+	if (error)
+		return (
+			<Navigate
+				to="/404"
+				replace
+			/>
+		)
 
 	const value = {
 		todos,
