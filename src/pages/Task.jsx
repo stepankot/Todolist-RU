@@ -4,17 +4,23 @@ import { useNavigate } from 'react-router'
 import CreateModal from '../CreateModal'
 import BackBtn from '../BackBtn'
 import { TaskContext } from '../context'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectSelectedTodo } from '../selectors'
+import { fetchCurrentTodo } from '../todoThunk'
 
 export default function Task() {
 	const { id } = useParams()
 	const [onModal, setOnModal] = useState(false)
 	const [title, setTitle] = useState('')
-	const { getTodo, onStatusChange, onUpdate, deleteTodo } =
-		useContext(TaskContext)
+	const dispatch = useDispatch()
+	const todo = useSelector(selectSelectedTodo)
 
-	const todo = getTodo(id)
 	const navigate = useNavigate(null)
 
+	useEffect(() => {
+		dispatch(fetchCurrentTodo(id))
+	}, [dispatch])
+	// TODO: Если задачи нету и loding false то страница ошибка
 	useEffect(() => {
 		if (todo?.title) {
 			setTitle(todo.title)
@@ -27,7 +33,9 @@ export default function Task() {
 
 		setOnModal(false)
 	}
-
+	if (!todo) {
+		return <div>Загружаю задачу</div>
+	}
 	return (
 		<div className="page">
 			<BackBtn />

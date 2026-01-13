@@ -11,7 +11,6 @@ import {
 } from '../selectors'
 
 export default function Main() {
-	const dispatch = useDispatch()
 	const todos = useSelector(selectTodoItems)
 	const loading = useSelector(selectTodoLoading)
 	const error = useSelector(selectTodoError)
@@ -22,10 +21,6 @@ export default function Main() {
 
 	const [searchValue, setSearchValue] = useState('')
 	const [debouncedSearch, setDebouncedSearch] = useState('')
-
-	useEffect(() => {
-		dispatch(fetchTodos())
-	}, [dispatch])
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {

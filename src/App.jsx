@@ -1,15 +1,29 @@
-import { Navigate, Outlet, useNavigate } from 'react-router'
+import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
 import { TaskContext } from './context'
-import useGetTodos from './api/useTodos'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { updateTodo } from './api/useUpdateTodo'
 import createdTodo from './api/useAddTodo'
 import DeleteTodo from './api/useDeleteTodo'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+	selectTodoItems,
+	selectTodoLoading,
+	selectTodoError
+} from './selectors'
+import { fetchTodos } from './todoThunk'
 
 export default function App() {
 	const [refreshTodos, setRefreshTodos] = useState(false)
-	const { todos, loading, error } = useGetTodos(refreshTodos)
+	const dispatch = useDispatch()
+	const todos = useSelector(selectTodoItems)
+	const loading = useSelector(selectTodoLoading)
+	const error = useSelector(selectTodoError)
 	const navigate = useNavigate(null)
+
+	useEffect(() => {
+		dispatch(fetchTodos())
+	}, [dispatch])
+	console.log(loading)
 
 	const addTodo = todo => {
 		createdTodo(todo)
@@ -58,7 +72,6 @@ export default function App() {
 		)
 
 	const value = {
-		todos,
 		addTodo,
 		deleteTodo,
 		onStatusChange,

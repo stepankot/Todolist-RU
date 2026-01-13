@@ -1,7 +1,10 @@
 import {
 	fetchTodoStart,
 	fetchTodoFailure,
-	fetchTodoSuccess
+	fetchTodoSuccess,
+	fetchCurrentTodoStart,
+	loadedTodo,
+	errorLoadingTodo
 } from './todoActions'
 
 export function fetchTodos() {
@@ -17,6 +20,23 @@ export function fetchTodos() {
 			dispatch(fetchTodoSuccess(data))
 		} catch (error) {
 			dispatch(fetchTodoFailure(error.message))
+		}
+	}
+}
+
+export function fetchCurrentTodo(id) {
+	return async dispatch => {
+		dispatch(fetchCurrentTodoStart())
+
+		try {
+			const response = await fetch(`http://localhost:3000/todos/${id}`)
+			if (!response.ok) {
+				throw new Error(response.error)
+			}
+			const data = await response.json()
+			dispatch(loadedTodo(data))
+		} catch (error) {
+			dispatch(errorLoadingTodo(error.message))
 		}
 	}
 }
