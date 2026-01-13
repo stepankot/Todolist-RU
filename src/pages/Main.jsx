@@ -1,17 +1,32 @@
 import { useState, useEffect } from 'react'
 import TodoElement from '../todoElement'
 import CreateModal from '../CreateModal'
-import { useContext } from 'react'
-import { TaskContext } from '../context'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchTodos } from '../todoThunk'
+import {
+	selectTodoError,
+	selectTodoItems,
+	selectTodoLoading
+} from '../selectors'
 
 export default function Main() {
+	const dispatch = useDispatch()
+	const todos = useSelector(selectTodoItems)
+	const loading = useSelector(selectTodoLoading)
+	const error = useSelector(selectTodoError)
+
 	const [onModal, setOnModal] = useState(false)
 	const [value, setValue] = useState('')
 	const [isSortAB, setIsSortAB] = useState(false)
-	const { todos, onCreate } = useContext(TaskContext)
 
 	const [searchValue, setSearchValue] = useState('')
 	const [debouncedSearch, setDebouncedSearch] = useState('')
+
+	useEffect(() => {
+		dispatch(fetchTodos())
+	}, [dispatch])
+
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setDebouncedSearch(searchValue)
@@ -40,6 +55,9 @@ export default function Main() {
 			if (!isSortAB) return 0
 			return a.title.localeCompare(b.title)
 		})
+
+	if (loading) return <div>Loading...</div>
+	if (error) return <div>{error}</div>
 	return (
 		<div className="page">
 			<div>
