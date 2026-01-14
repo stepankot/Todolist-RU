@@ -21,3 +21,23 @@ export const errorLoadingTodo = error => ({
 	type: 'ERROR_TODO',
 	payload: error
 })
+
+export const addTodoToState = todo => ({
+	type: 'ADD_TODO',
+	payload: todo
+})
+
+export const deleteTodoFromState = id => ({
+	type: 'DELETE_TODO',
+	payload: id
+})
+
+export const updateTodoState = todo => ({
+	type: 'UPDATE_TODO',
+	payload: todo
+})
+
+export const updateTodoGlobalState = todo => ({
+	type: 'UPDATE_TODO_GLOBAL',
+	payload: todo
+})

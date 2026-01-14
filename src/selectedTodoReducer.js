@@ -2,8 +2,9 @@ const initialState = {
 	id: '',
 	title: '',
 	completed: false,
-	error: false,
-	loading: false
+	error: null,
+	loading: false,
+	fetchedStatus: false
 }
 
 export const selectedTodoReducer = (state = initialState, action) => {
@@ -13,7 +14,9 @@ export const selectedTodoReducer = (state = initialState, action) => {
 		case 'FETCH_CURRENT_TODO_START': {
 			return {
 				...state,
-				loading: true
+				loading: true,
+				error: null,
+				fetchedStatus: false
 			}
 		}
 		case 'LOADED_TODO': {
@@ -23,13 +26,26 @@ export const selectedTodoReducer = (state = initialState, action) => {
 				id,
 				title,
 				completed,
-				loading: true
+				error: null,
+				loading: false,
+				fetchedStatus: true
 			}
 		}
 		case 'ERROR_TODO': {
 			return {
 				...state,
 				error: payload,
+				loading: false,
+				fetchedStatus: true
+			}
+		}
+		case 'UPDATE_TODO': {
+			const { id, title, completed } = payload
+			return {
+				...state,
+				id,
+				title,
+				completed,
 				loading: false
 			}
 		}

@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import TodoElement from '../todoElement'
 import CreateModal from '../CreateModal'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchTodos } from '../todoThunk'
+import { useDispatch, useSelector } from 'react-redux'
 import {
 	selectTodoError,
 	selectTodoItems,
 	selectTodoLoading
 } from '../selectors'
+import { addTodo } from '../todoThunk'
 
 export default function Main() {
 	const todos = useSelector(selectTodoItems)
@@ -21,6 +21,8 @@ export default function Main() {
 
 	const [searchValue, setSearchValue] = useState('')
 	const [debouncedSearch, setDebouncedSearch] = useState('')
+
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -37,10 +39,13 @@ export default function Main() {
 	const onSubmit = e => {
 		e.preventDefault()
 		const todo = { title: value, completed: false }
-		onCreate(todo)
+		dispatch(addTodo(todo))
 		setValue('')
 		setOnModal(false)
 	}
+
+	if (loading) return <div>Loading...</div>
+	if (error) return <div>{error}</div>
 
 	const filteredTodos = todos
 		?.filter(todo =>
@@ -51,8 +56,6 @@ export default function Main() {
 			return a.title.localeCompare(b.title)
 		})
 
-	if (loading) return <div>Loading...</div>
-	if (error) return <div>{error}</div>
 	return (
 		<div className="page">
 			<div>

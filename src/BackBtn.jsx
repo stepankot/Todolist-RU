@@ -6,7 +6,7 @@ export default function BackBtn() {
 	return (
 		<button
 			className="bckBtn"
-			onClick={() => navigate(-1)}
+			onClick={() => navigate(-1, { replace: true })}
 		>
 			Назад
 		</button>

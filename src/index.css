@@ -309,3 +309,17 @@ label {
 li:hover {
 	cursor: pointer;
 }
+
+.tsk-nt-fund {
+	display: grid;
+	align-items: center;
+	justify-content: center;
+}
+
+.errpage {
+	display: grid;
+	align-items: center;
+	justify-content: center;
+}
+.errpage h2 {
+}

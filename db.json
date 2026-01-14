@@ -1,9 +1,12 @@
 {
   "todos": [
     {
-      "id": "c67a",
-      "title": "Создать контекст",
-      "completed": true
+      "id": "e452",
+      "title": "Создать задачу",
+      "completed": true,
+      "error": null,
+      "loading": false,
+      "fetchedStatus": true
     }
   ]
 }

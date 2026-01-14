@@ -25,6 +25,32 @@ export const todoReducer = (state = initialState, action) => {
 				loading: false,
 				error: payload
 			}
+		case 'ADD_TODO': {
+			return {
+				...state,
+				items: [...state.items, payload],
+				loading: false
+			}
+		}
+		case 'DELETE_TODO': {
+			return {
+				...state,
+				loading: false,
+				items: state.items.filter(item => item.id != payload)
+			}
+		}
+		case 'UPDATE_TODO_GLOBAL': {
+			return {
+				...state,
+				loading: false,
+				items: state.items.map(item => {
+					if (item.id === payload.id) {
+						return payload
+					}
+					return item
+				})
+			}
+		}
 		default:
 			return state
 	}
