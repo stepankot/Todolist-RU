@@ -7,6 +7,32 @@
       "error": null,
       "loading": false,
       "fetchedStatus": true
+    },
+    {
+      "id": "bb6e",
+      "title": "Агуша",
+      "completed": false
+    },
+    {
+      "id": "d02b",
+      "title": "АРосток ",
+      "completed": false,
+      "error": null,
+      "loading": false,
+      "fetchedStatus": true
+    },
+    {
+      "id": "fe8e",
+      "title": "Удали задачу",
+      "completed": false
+    },
+    {
+      "id": "6c89",
+      "title": "Фикс проблем",
+      "completed": true,
+      "error": null,
+      "loading": false,
+      "fetchedStatus": true
     }
   ]
 }

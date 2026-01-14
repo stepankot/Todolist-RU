@@ -1,12 +1,7 @@
-import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
-import { TaskContext } from './context'
-import { useEffect, useState } from 'react'
+import { Navigate, Outlet, useNavigate } from 'react-router'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-	selectTodoItems,
-	selectTodoLoading,
-	selectTodoError
-} from './selectors'
+import { selectTodoLoading, selectTodoError } from './selectors'
 import { fetchTodos } from './todoThunk'
 
 export default function App() {
@@ -29,12 +24,9 @@ export default function App() {
 			/>
 		)
 
-	const value = null
 	return (
-		<TaskContext value={value}>
-			<div>
-				<Outlet />
-			</div>
-		</TaskContext>
+		<div>
+			<Outlet />
+		</div>
 	)
 }

@@ -1,47 +1,66 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import TodoElement from '../todoElement'
 import CreateModal from '../CreateModal'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
+	selectDebouncedSearch,
+	selectIsSortAB,
+	selectOnModal,
+	selectSerchValue,
 	selectTodoError,
 	selectTodoItems,
-	selectTodoLoading
+	selectTodoLoading,
+	selectValue
 } from '../selectors'
 import { addTodo } from '../todoThunk'
+import {
+	setDebouncedSearch,
+	setModalState,
+	setSearchValue,
+	setSort,
+	setValue
+} from '../todoActions'
 
 export default function Main() {
 	const todos = useSelector(selectTodoItems)
 	const loading = useSelector(selectTodoLoading)
 	const error = useSelector(selectTodoError)
 
-	const [onModal, setOnModal] = useState(false)
-	const [value, setValue] = useState('')
-	const [isSortAB, setIsSortAB] = useState(false)
-
-	const [searchValue, setSearchValue] = useState('')
-	const [debouncedSearch, setDebouncedSearch] = useState('')
+	const onModal = useSelector(selectOnModal)
+	const value = useSelector(selectValue)
+	const isSortAB = useSelector(selectIsSortAB)
+	const searchValue = useSelector(selectSerchValue)
+	const debouncedSearch = useSelector(selectDebouncedSearch)
 
 	const dispatch = useDispatch()
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			setDebouncedSearch(searchValue)
+			dispatch(setDebouncedSearch(searchValue))
 		}, 400)
 
 		return () => clearTimeout(timeout)
 	}, [searchValue])
 
 	const onSearch = e => {
-		setSearchValue(e.target.value)
+		dispatch(setSearchValue(e.target.value))
+	}
+
+	const setInputValue = value => {
+		dispatch(setValue(value))
 	}
 
 	const onSubmit = e => {
 		e.preventDefault()
 		const todo = { title: value, completed: false }
 		dispatch(addTodo(todo))
-		setValue('')
-		setOnModal(false)
+		dispatch(setValue(''))
+		dispatch(setModalState())
+	}
+
+	const setOnModal = () => {
+		dispatch(setModalState())
 	}
 
 	if (loading) return <div>Loading...</div>
@@ -62,7 +81,7 @@ export default function Main() {
 				<h1 className="app-title">
 					Список дел
 					<div className="btn-cont">
-						<button onClick={() => setOnModal(true)}>+</button>
+						<button onClick={setOnModal}>+</button>
 					</div>
 				</h1>
 				{todos && (
@@ -72,7 +91,7 @@ export default function Main() {
 							<input
 								type="checkbox"
 								className="todo-chkbox"
-								onChange={() => setIsSortAB(!isSortAB)}
+								onChange={() => dispatch(setSort())}
 							/>
 						</label>
 						<input
@@ -104,7 +123,7 @@ export default function Main() {
 			{onModal ? (
 				<CreateModal
 					value={value}
-					setValue={setValue}
+					setValue={setInputValue}
 					setOnModal={setOnModal}
 					onSubmit={onSubmit}
 					isNew={true}

@@ -20,7 +20,7 @@ export function fetchTodos() {
 				throw new Error(response.error)
 			}
 			const data = await response.json()
-			dispatch(fetchTodoSuccess(data))
+			dispatch(fetchTodoSuccess(data.reverse()))
 		} catch (error) {
 			dispatch(fetchTodoFailure(error.message))
 		}

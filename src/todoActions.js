@@ -41,3 +41,26 @@ export const updateTodoGlobalState = todo => ({
 	type: 'UPDATE_TODO_GLOBAL',
 	payload: todo
 })
+
+export const setModalState = () => ({
+	type: 'SET_MODAL'
+})
+
+export const setValue = value => ({
+	type: 'SET_VALUE',
+	payload: value
+})
+
+export const setSort = () => ({
+	type: 'SET_SORT'
+})
+
+export const setSearchValue = value => ({
+	type: 'SET_SEARCH',
+	payload: value
+})
+
+export const setDebouncedSearch = value => ({
+	type: 'SET_DEBOUNCED_SEARCH',
+	payload: value
+})

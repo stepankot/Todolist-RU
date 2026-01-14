@@ -28,7 +28,7 @@ export const todoReducer = (state = initialState, action) => {
 		case 'ADD_TODO': {
 			return {
 				...state,
-				items: [...state.items, payload],
+				items: [payload, ...state.items],
 				loading: false
 			}
 		}

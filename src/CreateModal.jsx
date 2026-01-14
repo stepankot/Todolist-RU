@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+
 export default function CreateModal({
 	value,
 	setValue,
@@ -6,6 +8,10 @@ export default function CreateModal({
 	initialValue,
 	isNew
 }) {
+	const inputRef = useRef(null)
+	useEffect(() => {
+		inputRef.current.focus()
+	}, [])
 	return (
 		<div className="modal-overlay">
 			<div className="modal-wrapper">
@@ -15,6 +21,7 @@ export default function CreateModal({
 						placeholder="Название"
 						value={value}
 						onChange={({ target }) => setValue(target.value)}
+						ref={inputRef}
 					/>
 				</form>
 				<section className="modal-btns-sec">

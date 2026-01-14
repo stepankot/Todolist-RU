@@ -1,14 +1,10 @@
-import { Navigate, replace, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import CreateModal from '../CreateModal'
 import BackBtn from '../BackBtn'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-	selectSelectedTodo,
-	selectCurrentTodoLoading,
-	selectFetchedStatus
-} from '../selectors'
+import { selectSelectedTodo, selectFetchedStatus } from '../selectors'
 import { deleteTodo, fetchCurrentTodo, updateTodo } from '../todoThunk'
 import { updateTodoGlobalState } from '../todoActions'
 
